@@ -7,8 +7,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
 
@@ -27,12 +27,12 @@ class BMICalculatorTest {
         System.out.println("After all unit tests");
     }
 
-    @ParameterizedTest(name= "weight={0}")
-    @ValueSource(doubles = {89.0, 95.0, 110.0})
-    void should_ReturnTrue_When_DietRecommended(Double coderWeight) {
+    @ParameterizedTest(name= "weight={0}, height={1}")
+    @CsvFileSource(resources = "/test/resources/diet-recommended-input-data.csv", numLinesToSkip = 1)
+    void should_ReturnTrue_When_DietRecommended(Double coderWeight, Double coderHeight) {
         // given
         double weight = coderWeight;
-        double height = 1.72;
+        double height = coderHeight;
 
         // when
         boolean recommended = BMICalculator.isDietRecommended(weight, height);
