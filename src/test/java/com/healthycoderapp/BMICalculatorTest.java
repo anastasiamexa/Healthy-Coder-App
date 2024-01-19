@@ -2,6 +2,8 @@ package test.java.com.healthycoderapp;
 
 import main.java.com.healthycoderapp.BMICalculator;
 import main.java.com.healthycoderapp.Coder;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
@@ -10,6 +12,19 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BMICalculatorTest {
+
+    // Runs before all tests only once
+    @BeforeAll
+    static void beforeAll() {
+        System.out.println("Before all unit tests");
+    }
+
+    // Runs after all tests only once
+    @AfterAll
+    static void afterAll() {
+        System.out.println("After all unit tests");
+    }
+
     @Test
     void should_ReturnTrue_When_DietRecommended() {
         // given
