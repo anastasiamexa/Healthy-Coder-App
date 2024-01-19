@@ -10,6 +10,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -111,5 +113,20 @@ class BMICalculatorTest {
 
         // then
         assertArrayEquals(expected, bmiScores);
+    }
+
+    @Test
+    void should_ReturnCoderWithWorstBMIIn1Ms_When_CoderListHas10000Elements() {
+        // given
+        List<Coder> coders = new ArrayList<>();
+        for (int i = 0; i < 10000; i++) {
+            coders.add(new Coder(1.0 + i, 10.0 + i));
+        }
+
+        // when
+        Executable executable = () -> BMICalculator.findCoderWithWorstBMI(coders);
+
+        // then
+        assertTimeout(Duration.ofMillis(500), executable);
     }
 }
