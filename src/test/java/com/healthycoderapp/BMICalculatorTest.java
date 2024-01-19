@@ -6,13 +6,15 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BMICalculatorTest {
-
     // Runs before all tests only once
     @BeforeAll
     static void beforeAll() {
@@ -25,10 +27,11 @@ class BMICalculatorTest {
         System.out.println("After all unit tests");
     }
 
-    @Test
-    void should_ReturnTrue_When_DietRecommended() {
+    @ParameterizedTest(name= "weight={0}")
+    @ValueSource(doubles = {89.0, 95.0, 110.0})
+    void should_ReturnTrue_When_DietRecommended(Double coderWeight) {
         // given
-        double weight = 89.0;
+        double weight = coderWeight;
         double height = 1.72;
 
         // when
@@ -38,11 +41,12 @@ class BMICalculatorTest {
         assertTrue(recommended);
     }
 
-    @Test
-    void should_ReturnFalse_When_DietRecommended() {
+    @ParameterizedTest(name= "weight={0}, height={1}")
+    @CsvSource(value = {"63.0, 1.72", "65.0, 1.75", "70.0, 1.78"})
+    void should_ReturnFalse_When_DietRecommended(Double coderWeight, Double coderHeight) {
         // given
-        double weight = 50.0;
-        double height = 1.92;
+        double weight = coderWeight;
+        double height = coderHeight;
 
         // when
         boolean recommended = BMICalculator.isDietRecommended(weight, height);
